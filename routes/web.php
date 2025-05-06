@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\KategoriPengaduanController;
+use App\Http\Controllers\UnitLayananController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -9,8 +11,14 @@ Route::get('/', function () {
 Route::get('/beranda', function () {
     return view('pengadu.landingpage');
 })->name('beranda');
-Route::get('/pengaduan', function () {
-    return view('pengadu.formpengaduan');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pengaduan', function () {
+        return view('pengadu.formpengaduan');
+    })->name('pengaduan');
+    Route::get('/lihat-pengaduan', function () {
+        return view('pengadu.lihatpengaduan');
+    })->name('lihat-pengaduan');
 });
 
 Route::prefix('admin')->group(function () {
@@ -34,8 +42,12 @@ Auth::routes();
 //     });
 // });
 
-Route::prefix('admin')->middleware(['admin'])->group(function () {
+Route::prefix('admin')->middleware(['admin', 'role:admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
+    Route::resource('kategori', KategoriPengaduanController::class);
+    Route::resource('unit', UnitLayananController::class);
+
 });

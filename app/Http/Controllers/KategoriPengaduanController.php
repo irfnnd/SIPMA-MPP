@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\KategoriPengaduan;
@@ -7,59 +6,49 @@ use Illuminate\Http\Request;
 
 class KategoriPengaduanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function index(Request $request)
+{
+    $search = $request->search;
+    $perPage = $request->perPage ?? 10;
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    $kategoris = KategoriPengaduan::when($search, function ($query, $search) {
+        return $query->where('nama_kategori', 'like', "%{$search}%");
+    })->paginate($perPage)->appends($request->query());
+
+    return view('admin.kategori.index', compact('kategoris'));
+}
+
+
     public function create()
     {
-        //
+        return view('admin.kategori.form', ['kategori' => new KategoriPengaduan()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate(['nama_kategori' => 'required']);
+
+        KategoriPengaduan::create($request->all());
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(KategoriPengaduan $kategoriPengaduan)
+
+    public function edit(KategoriPengaduan $kategori)
     {
-        //
+        return view('admin.kategori.form', compact('kategori'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(KategoriPengaduan $kategoriPengaduan)
+    public function update(Request $request, KategoriPengaduan $kategori)
     {
-        //
+        $request->validate(['nama_kategori' => 'required']);
+        $kategori->update($request->all());
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, KategoriPengaduan $kategoriPengaduan)
+    public function destroy(KategoriPengaduan $kategori)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(KategoriPengaduan $kategoriPengaduan)
-    {
-        //
+        $kategori->delete();
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus');
     }
 }

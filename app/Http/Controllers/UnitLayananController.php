@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\UnitLayanan;
@@ -7,59 +6,49 @@ use Illuminate\Http\Request;
 
 class UnitLayananController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function index(Request $request)
+{
+    $search = $request->search;
+    $perPage = $request->perPage ?? 10;
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    $units = UnitLayanan::when($search, function ($query, $search) {
+        return $query->where('nama_unit', 'like', "%{$search}%");
+    })->paginate($perPage)->appends($request->query());
+
+    return view('admin.unit-layanan.index', compact('units'));
+}
+
+
     public function create()
     {
-        //
+        return view('admin.unit-layanan.form', ['unit' => new UnitLayanan()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate(['nama_unit' => 'required']);
+
+        UnitLayanan::create($request->all());
+
+        return redirect()->route('unit.index')->with('success', 'Unit berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UnitLayanan $unitLayanan)
+
+    public function edit(UnitLayanan $unit)
     {
-        //
+        return view('admin.unit-layanan.form', compact('unit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UnitLayanan $unitLayanan)
+    public function update(Request $request, UnitLayanan $unit)
     {
-        //
+        $request->validate(['nama_unit' => 'required']);
+        $unit->update($request->all());
+        return redirect()->route('unit.index')->with('success', 'Unit berhasil diperbarui');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UnitLayanan $unitLayanan)
+    public function destroy(UnitLayanan $unit)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UnitLayanan $unitLayanan)
-    {
-        //
+        $unit->delete();
+        return redirect()->route('unit.index')->with('success', 'Unit berhasil dihapus');
     }
 }
