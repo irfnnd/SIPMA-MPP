@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KategoriPengaduanController;
+use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\UnitLayananController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pengaduan', function () {
         return view('pengadu.formpengaduan');
     })->name('pengaduan');
-    Route::get('/lihat-pengaduan', function () {
-        return view('pengadu.lihatpengaduan');
-    })->name('lihat-pengaduan');
+    Route::get('/lihat-pengaduan',[PengaduanController::class, 'index2'])->name('lihat-pengaduan');
 });
 
 Route::prefix('admin')->group(function () {
@@ -49,5 +48,9 @@ Route::prefix('admin')->middleware(['admin', 'role:admin'])->group(function () {
 
     Route::resource('kategori', KategoriPengaduanController::class);
     Route::resource('unit', UnitLayananController::class);
+    Route::resource('pengaduan', PengaduanController::class);
+    Route::resource('data-masyarakat', App\Http\Controllers\MasyarakatController::class);
+    Route::resource('data-petugas', App\Http\Controllers\PetugasController::class);
+    Route::resource('data-pengguna', App\Http\Controllers\UsersController::class);
 
 });

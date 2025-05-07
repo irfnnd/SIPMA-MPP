@@ -45,13 +45,13 @@
                     <a href="pengaduan" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/pengaduan') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-comment-dots fa-fw me-3"></i><span>Data Pengaduan</span>
                     </a>
-            <a href="masyarakat" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/masyarakat') ? 'active' : '' }}" data-mdb-ripple-init>
+            <a href="data-masyarakat" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-masyarakat') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-users fa-fw me-3"></i><span>Data Masyarakat</span>
                     </a>
-                    <a href="petugas" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/petugas') ? 'active' : '' }}" data-mdb-ripple-init>
+                    <a href="data-petugas" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-petugas') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-user-shield fa-fw me-3"></i><span>Data Petugas</span>
                     </a>
-                    <a href="users" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/users') ? 'active' : '' }}" data-mdb-ripple-init>
+                    <a href="data-pengguna" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-pengguna') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-user-cog fa-fw me-3"></i><span>Users</span>
                     </a>
                 </div>
@@ -81,13 +81,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                             id="navbarDropdownMenuLink" role="button" data-mdb-dropdown-init aria-expanded="false">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
-                                height="22" alt="" loading="lazy" />
+                            <img src="{{ asset('assets/avatar.png') }}" class="rounded-circle"
+                                height="40" alt="" loading="lazy" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">My profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" href="logout">Logout</a></li>
                         </ul>
                     </li>
                 </ul>

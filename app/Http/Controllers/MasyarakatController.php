@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengaduan;
-use DragonCode\Contracts\Cashier\Auth\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class PengaduanController extends Controller
+class MasyarakatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,25 +13,20 @@ class PengaduanController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-    $perPage = $request->perPage ?? 10;
+        $perPage = $request->perPage ?? 10;
 
-    $pengaduans = Pengaduan::when($search, function ($query, $search) {
-        return $query->where('judul', 'like', "%{$search}%");
-    })->paginate($perPage)->appends($request->query());
+        $masyarakats = User::where('role', 'masyarakat')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->paginate($perPage)
+            ->appends($request->query());
 
-    return view('admin.pengaduan.index', compact('pengaduans'));
+        return view('admin.data-masyarakat.index', compact('masyarakats'));
+
+
     }
-
-    public function index2(Request $request)
-{
-    $user = $request->user();
-    $pengaduans = Pengaduan::where('user_id', $user->id)
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
-
-    return view('pengadu.lihat-pengaduan', compact('pengaduans'));
-}
-
 
     /**
      * Show the form for creating a new resource.
