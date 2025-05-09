@@ -32,28 +32,32 @@
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
-                    <a href="dashboard" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/dashboard') || Request::is('admin/') ? 'active' : '' }} "
+                    <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/dashboard') || Request::is('admin/') ? 'active' : '' }} "
                         style="border-radius: 4px" data-mdb-ripple-init aria-current="true">
                         <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
                     </a>
-                    <a href="kategori" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/kategori') ? 'active' : '' }}" data-mdb-ripple-init>
+                    <a href="{{ route('kategori.index') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/kategori') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-tag fa-fw me-3"></i><span>Kategori</span>
                     </a>
-                    <a href="unit" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/unit') ? 'active' : '' }}" data-mdb-ripple-init>
+                    <a href="{{ route('unit.index') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/unit') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-building fa-fw me-3"></i><span>Unit Layanan</span>
                     </a>
-                    <a href="pengaduan" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/pengaduan') ? 'active' : '' }}" data-mdb-ripple-init>
+                    <a href="{{ route('data-pengaduan.index') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-pengaduan') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-comment-dots fa-fw me-3"></i><span>Data Pengaduan</span>
                     </a>
-            <a href="data-masyarakat" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-masyarakat') ? 'active' : '' }}" data-mdb-ripple-init>
+            <a href="{{ route('data-masyarakat.index') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-masyarakat') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-users fa-fw me-3"></i><span>Data Masyarakat</span>
                     </a>
-                    <a href="data-petugas" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-petugas') ? 'active' : '' }}" data-mdb-ripple-init>
+                    @can('viewAny', App\Models\User::class)
+                    <a href="{{ route('data-petugas.index') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-petugas') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-user-shield fa-fw me-3"></i><span>Data Petugas</span>
                     </a>
-                    <a href="data-pengguna" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-pengguna') ? 'active' : '' }}" data-mdb-ripple-init>
+                    @endcan
+                    @can('viewAny', App\Models\User::class)
+                    <a href="{{ route('data-pengguna.index') }}" class="list-group-item list-group-item-action py-2 {{ Request::is('admin/data-pengguna') ? 'active' : '' }}" data-mdb-ripple-init>
                         <i class="fas fa-user-cog fa-fw me-3"></i><span>Users</span>
                     </a>
+                    @endcan
                 </div>
             </div>
         </nav>
@@ -85,7 +89,8 @@
                                 height="40" alt="" loading="lazy" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="logout">Logout</a></li>
+                            <li class="dropdown-item">{{Auth::user()->name}}</li>
+                            <li><a class="dropdown-item" href="{{route('admin.logout')}}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -150,6 +155,7 @@
             });
         }
     </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 </body>

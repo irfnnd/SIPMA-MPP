@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengaduan;
 use App\Models\Tanggapan;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,23 @@ class TanggapanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $pengaduanId)
     {
-        //
+        $request->validate([
+            'isi_tanggapan' => 'required|string',
+        ]);
+
+        Tanggapan::create([
+            'pengaduan_id' => $pengaduanId,
+            'isi_tanggapan' => $request->isi_tanggapan,
+            'petugas_id' => $request->user()->id,
+        ]);
+
+        Pengaduan::where('id', $pengaduanId)->update([
+            'status' => 'Diproses',
+        ]);
+
+        return redirect()->back()->with('success', 'Tanggapan berhasil dikirim.');
     }
 
     /**

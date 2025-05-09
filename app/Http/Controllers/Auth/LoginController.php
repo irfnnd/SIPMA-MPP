@@ -29,11 +29,11 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-        if (Auth::user()->role === 'admin') {
+        if (Auth::user()->role === 'admin' || Auth::user()->role === 'petugas') {
             return '/admin/dashboard';
         }
 
-        return '/home'; // masyarakat
+        return '/beranda'; // masyarakat
     }
 
 
@@ -50,6 +50,7 @@ class LoginController extends Controller
 
     public function showAdminLoginForm()
     {
+        
         return view('auth.login-admin'); // view khusus login admin
     }
     public function adminLogin(Request $request)

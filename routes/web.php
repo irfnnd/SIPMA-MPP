@@ -2,23 +2,26 @@
 
 use App\Http\Controllers\KategoriPengaduanController;
 use App\Http\Controllers\PengaduanController;
+use App\Http\Controllers\TanggapanController;
 use App\Http\Controllers\UnitLayananController;
+use App\Models\Pengaduan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pengadu.landingpage');
 });
+
 Route::get('/beranda', function () {
     return view('pengadu.landingpage');
 })->name('beranda');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/pengaduan', function () {
-        return view('pengadu.formpengaduan');
-    })->name('pengaduan');
+    Route::resource('pengaduan', PengaduanController::class);
     Route::get('/lihat-pengaduan',[PengaduanController::class, 'index2'])->name('lihat-pengaduan');
 });
+
+Auth::routes();
 
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -29,28 +32,21 @@ Route::prefix('admin')->group(function () {
     Route::get('logout', function () {
         Auth::logout();
         return redirect('/admin/login');
-    })->name('logout');
+    })->name('admin.logout');
 });
 
-Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::middleware(['auth', 'role:masyarakat'])->group(function () {
-//     Route::get('/', function () {
-//         return view('pengadu.landingpage');
-//     });
-// });
 
-Route::prefix('admin')->middleware(['admin', 'role:admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+Route::prefix('admin')->middleware(['admin'])->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::resource('kategori', KategoriPengaduanController::class);
     Route::resource('unit', UnitLayananController::class);
-    Route::resource('pengaduan', PengaduanController::class);
+    Route::resource('data-pengaduan', PengaduanController::class);
     Route::resource('data-masyarakat', App\Http\Controllers\MasyarakatController::class);
     Route::resource('data-petugas', App\Http\Controllers\PetugasController::class);
     Route::resource('data-pengguna', App\Http\Controllers\UsersController::class);
+    Route::post('/tanggapan/{pengaduan}', [TanggapanController::class, 'store'])->name('tanggapan.store');
+
 
 });

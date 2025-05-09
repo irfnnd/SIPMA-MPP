@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('isi_laporan');
             $table->string('lokasi')->nullable();
             $table->string('lampiran')->nullable();
-            $table->string('status')->default('menunggu');
+            $table->string('status')->default('Menunggu');
             $table->timestamps();
         });
     }

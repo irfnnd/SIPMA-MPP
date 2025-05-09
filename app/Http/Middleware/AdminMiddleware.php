@@ -24,6 +24,7 @@ class AdminMiddleware
             abort(403, 'Akses ditolak.');
         }
 
+
         return $next($request);
     }
 }

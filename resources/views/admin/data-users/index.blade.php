@@ -54,17 +54,17 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role ?? '-' }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('data-pengguna.show', $user->id) }}" class="btn btn-sm btn-primary"
-                                            data-bs-toggle="tooltip" title="Lihat detail">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('data-pengguna.edit', $user->id) }}"
+                                        <a class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#detailModal{{ $user->id }}">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        <a href="{{ route('data-pengguna.edit', $user) }}"
                                             class="btn btn-sm btn-info text-white" data-bs-toggle="tooltip"
                                             title="Edit pengaduan">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('data-pengguna.destroy', $user->id) }}" method="POST"
-                                            class="d-inline">
+                                            class="d-inline" id="delete-form-{{ $user->id }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-sm btn-danger"
@@ -87,6 +87,60 @@
                 </div>
             </div>
 
+            @foreach ($penggunas as $user)
+                <div class="modal fade" id="detailModal{{ $user->id }}" tabindex="-1"
+                    aria-labelledby="modalLabel{{ $user->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="modalLabel{{ $user->id }}">
+                                    <i class="fas fa-info-circle me-2"></i>Detail Pengguna
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Nama Pengguna</div>
+                                            <h5>{{ $user->name }}</h5>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Email</div>
+                                            <div>{{ $user->email }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">No HP</div>
+                                            <div>{{ $user->phone ?? '-' }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Role</div>
+                                            <div>{{ $user->role ?? '-' }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Tanggal Bergabung</div>
+                                            <div>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y, H:i') }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Status Akun</div>
+                                            <div>{{ $user->status ?? 'Aktif' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+
             <!-- Footer section with pagination and per-page option -->
             <div class="card-footer bg-white py-3">
                 <div class="d-flex justify-content-between align-items-center">
@@ -94,9 +148,12 @@
                         <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="perPage" class="form-select form-select-sm" style="width: auto;"
                             onchange="this.form.submit()">
-                            <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10 per halaman</option>
-                            <option value="25" {{ request('perPage') == 25 ? 'selected' : '' }}>25 per halaman</option>
-                            <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50 per halaman</option>
+                            <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10 per halaman
+                            </option>
+                            <option value="25" {{ request('perPage') == 25 ? 'selected' : '' }}>25 per halaman
+                            </option>
+                            <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50 per halaman
+                            </option>
                         </select>
                     </form>
                     @if (method_exists($penggunas, 'links'))

@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'phone',
+        'email_verified_at',
     ];
 
     /**
@@ -45,4 +48,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function pengaduans()
+    {
+        return $this->hasMany(Pengaduan::class);
+    }
+    public function tanggapans()
+    {
+        return $this->hasMany(Pengaduan::class);
+    }
+
 }

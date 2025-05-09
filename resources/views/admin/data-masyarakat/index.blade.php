@@ -7,7 +7,7 @@
                 <h5 class="mb-0 text-primary">
                     <i class="fas fa-list-alt me-2"></i>Daftar masyarakat
                 </h5>
-                <a href="{{ route('data-masyarakat.create') }}" class="btn btn-primary">
+                <a href="{{ route('data-pengguna.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus-circle me-1"></i>Tambah masyarakat
                 </a>
             </div>
@@ -52,10 +52,10 @@
                                     <td class="px-4">{{ $masyarakats->firstItem() + $index }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->no_hp ?? '-' }}</td>
+                                    <td>{{ $user->phone ?? '-' }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('data-masyarakat.show', $user->id) }}" class="btn btn-sm btn-primary"
-                                            data-bs-toggle="tooltip" title="Lihat detail">
+                                        <a class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#detailModal{{ $user->id }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <form action="{{ route('data-masyarakat.destroy', $user->id) }}" method="POST"
@@ -82,6 +82,95 @@
                 </div>
             </div>
 
+            @foreach ($masyarakats as $user)
+                <div class="modal fade" id="detailModal{{ $user->id }}" tabindex="-1"
+                    aria-labelledby="modalLabel{{ $user->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="modalLabel{{ $user->id }}">
+                                    <i class="fas fa-info-circle me-2"></i>Detail Pengguna
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Nama Pengguna</div>
+                                            <h5>{{ $user->name }}</h5>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Email</div>
+                                            <div>{{ $user->email }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">No. HP</div>
+                                            <div>{{ $user->phone ?? '-' }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Role</div>
+                                            <div>{{ $user->role ?? '-' }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Tanggal Bergabung</div>
+                                            <div>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y, H:i') }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Status Akun</div>
+                                            <div>{{ $user->status ?? 'Aktif' }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Jumlah Pengaduan</div>
+                                            <div>{{ $user->pengaduans->count() }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Pengaduan</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        @forelse ($user->pengaduans as $pengaduan)
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 ms-3">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="mb-0">{{ $pengaduan->judul ?? '-' }}</h6>
+                                                        <small class="text-muted">
+                                                            {{ \Carbon\Carbon::parse($pengaduan->created_at)->format('d M Y, H:i') ?? '-' }}
+                                                        </small>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">
+                                                        {{ $pengaduan->isi_laporan ?? 'Belum ada pengaduan' }}</p>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 ms-3">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="mb-0">-</h6>
+                                                        <small class="text-muted">-</small>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Belum ada pengaduan</p>
+                                                </div>
+                                            </div>
+                                        @endforelse
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
             <!-- Footer section with pagination and per-page option -->
             <div class="card-footer bg-white py-3">
                 <div class="d-flex justify-content-between align-items-center">
@@ -89,9 +178,12 @@
                         <input type="hidden" name="search" value="{{ request('search') }}">
                         <select name="perPage" class="form-select form-select-sm" style="width: auto;"
                             onchange="this.form.submit()">
-                            <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10 per halaman</option>
-                            <option value="25" {{ request('perPage') == 25 ? 'selected' : '' }}>25 per halaman</option>
-                            <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50 per halaman</option>
+                            <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10 per halaman
+                            </option>
+                            <option value="25" {{ request('perPage') == 25 ? 'selected' : '' }}>25 per halaman
+                            </option>
+                            <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50 per halaman
+                            </option>
                         </select>
                     </form>
                     @if (method_exists($masyarakats, 'links'))

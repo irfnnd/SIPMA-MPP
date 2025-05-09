@@ -9,26 +9,27 @@
     <meta name="keywords" content="" />
 
     <!-- Favicons -->
-    <link href="assets/pengadu/assets/mpp-icon.png" rel="icon" />
+    <link href="{{ asset('assets/mpp-icon.png') }}" rel="icon" />
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
 
     <!-- Vendor CSS Files -->
-    <link href="assets/pengadu/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/pengadu/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-    <link href="assets/pengadu/assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link href="assets/pengadu/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
-    <link href="assets/pengadu/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
-    <link href="assets/pengadu/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/vendor/aos/aos.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet" />
 
     <!-- Main CSS File -->
-    <link href="assets/pengadu/assets/css/main.css" rel="stylesheet" />
+    <link href="{{ asset('assets/pengadu/assets/css/main.css') }}" rel="stylesheet" />
 
     <!-- =======================================================
   * Template Name: Medicio
@@ -43,8 +44,8 @@
     <header id="header" class="header sticky-top">
         <div class="branding d-flex align-items-center">
             <div class="container position-relative d-flex align-items-center justify-content-end">
-                <a href="index.html" class="logo d-flex align-items-center me-auto">
-                    <img src="assets/mpp-logo.png" alt="" />
+                <a href="beranda" class="logo d-flex align-items-center me-auto">
+                    <img src="{{ asset('assets/mpp-logo.png') }}" alt="" />
                     <!-- Uncomment the line below if you also wish to use a text logo -->
                     <!-- <h1 class="sitename">Medicio</h1>  -->
                 </a>
@@ -59,15 +60,17 @@
                         </li>
                         <li><a href="{{ $isLandingPage ? '#about' : route('beranda') . '#about' }}">Tentang</a></li>
                         <li class="dropdown">
-                            <a href="#"  class="{{ (request()->is('pengaduan') || request()->is('lihat-pengaduan')) ? 'active' : '' }}  "><span>Layanan</span>
+                            <a href="#"
+                                class="{{ request()->is('pengaduan/create') || request()->is('lihat-pengaduan') ? 'active' : '' }}  "><span>Layanan</span>
                                 <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="pengaduan">Pengaduan</a></li>
-                                <li><a href="#">Lihat Pengaduan</a></li>
+                                <li><a href="{{ route('pengaduan.create') }}">Pengaduan</a></li>
+                                <li><a href="{{ route('lihat-pengaduan') }}">Lihat Pengaduan</a></li>
                             </ul>
                         </li>
                         <li class=""><a
-                                href="{{ $isLandingPage ? '#contact' : route('beranda') . '#contact' }}">Kontak</a></li>
+                                href="{{ $isLandingPage ? '#contact' : route('beranda') . '#contact' }}">Kontak</a>
+                        </li>
                         @guest
                             @if (Route::has('login'))
                                 <li class="p-0">
@@ -86,12 +89,14 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle  py-0" href="#"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    v-pre>
+                                    <img src="{{ asset('assets/avatar.png') }}" class="rounded-circle" height="30"
+                                        alt="" loading="lazy" />
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a href="" class="dropdown-item">{{Auth::user()->name}}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -120,7 +125,7 @@
         <div class="container footer-top">
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-6 footer-about">
-                    <a href="index.html" class="logo d-flex align-items-center">
+                    <a href="beranda" class="logo d-flex align-items-center">
                         <span class="sitename">MAL PELAYANAN PUBLIK KOTA PADANG</span>
                     </a>
                     <div class="footer-contact pt-3">
@@ -167,15 +172,36 @@
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
-    <script src="assets/pengadu/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/pengadu/assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/pengadu/assets/vendor/aos/aos.js"></script>
-    <script src="assets/pengadu/assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/pengadu/assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/pengadu/assets/vendor/swiper/swiper-bundle.min.js"></script>
-
+    <script src="{{ asset('assets/pengadu/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/pengadu/assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ asset('assets/pengadu/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('assets/pengadu/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
     <!-- Main JS File -->
-    <script src="assets/pengadu/assets/js/main.js"></script>
+    <script src="{{ asset('assets/pengadu/assets/js/main.js') }}"></script>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    @endif
 </body>
 
 </html>

@@ -6,41 +6,128 @@
         <div class="col-md-8">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">{{ $kategori->exists ? 'Edit Kategori' : 'Tambah Kategori Baru' }}</h5>
+                    <h5 class="mb-0">{{ $user->exists ? 'Edit Pengguna' : 'Tambah Pengguna Baru' }}</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="{{ $kategori->exists ? route('kategori.update', $kategori) : route('kategori.store') }}" method="POST">
+                    <form action="{{ $user->exists ? route('data-pengguna.update', $user) : route('data-pengguna.store') }}" method="POST">
                         @csrf
-                        @if($kategori->exists)
+                        @if($user->exists)
                             @method('PUT')
                         @endif
 
-                        <div class="mb-4">
-                            <label for="nama_kategori" class="form-label fw-bold">Nama Kategori</label>
+                        {{-- Name --}}
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Nama</label>
                             <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input
                                     type="text"
-                                    name="nama_kategori"
-                                    id="nama_kategori"
-                                    class="form-control @error('nama_kategori') is-invalid @enderror"
-                                    value="{{ old('nama_kategori', $kategori->nama_kategori) }}"
-                                    placeholder="Masukkan nama kategori"
-                                    required
-                                    autofocus>
+                                    name="name"
+                                    id="name"
+                                    class="form-control @error('name') is-invalid @enderror"
+                                    value="{{ old('name', $user->name) }}"
+                                    placeholder="Nama lengkap"
+                                    required>
                             </div>
-                            @error('nama_kategori')
+                            @error('name')
                                 <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        {{-- Email --}}
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    class="form-control @error('email') is-invalid @enderror"
+                                    value="{{ old('email', $user->email) }}"
+                                    placeholder="Alamat email"
+                                    required>
+                            </div>
+                            @error('email')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Role --}}
+                        <div class="mb-3">
+                            <label for="role" class="form-label fw-bold">Peran</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                <select name="role" id="role" class="form-select @error('role') is-invalid @enderror" required>
+                                    <option value="">-- Pilih Peran --</option>
+                                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="petugas" {{ old('role', $user->role) == 'petugas' ? 'selected' : '' }}>Petugas</option>
+                                    <option value="masyarakat" {{ old('role', $user->role) == 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
+                                </select>
+                            </div>
+                            @error('role')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Phone --}}
+                        <div class="mb-3">
+                            <label for="phone" class="form-label fw-bold">No. Telepon</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    id="phone"
+                                    class="form-control @error('phone') is-invalid @enderror"
+                                    value="{{ old('phone', $user->phone) }}"
+                                    placeholder="Contoh: 081234567890">
+                            </div>
+                            @error('phone')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Password --}}
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-bold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    placeholder="{{ $user->exists ? 'Kosongkan jika tidak diubah' : 'Masukkan password' }}"
+                                    {{ $user->exists ? '' : 'required' }}>
+                            </div>
+                            @error('password')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label fw-bold">Konfirmasi Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input
+                                    type="password"
+                                    name="password_confirmation"
+                                    id="password_confirmation"
+                                    class="form-control"
+                                    placeholder="{{ $user->exists ? 'Kosongkan jika tidak diubah' : 'Ulangi password' }}"
+                                    {{ $user->exists ? '' : 'required' }}>
+                            </div>
+                        </div>
+
+
+                        {{-- Tombol Aksi --}}
                         <div class="d-flex justify-content-between mt-4">
-                            <a href="{{ route('kategori.index') }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('data-pengguna.index') }}" class="btn btn-outline-secondary">
                                 <i class="fas fa-arrow-left me-1"></i> Kembali
                             </a>
                             <button type="submit" class="btn btn-success px-4">
-                                <i class="fas fa-{{ $kategori->exists ? 'save' : 'plus-circle' }} me-1"></i>
-                                {{ $kategori->exists ? 'Simpan' : 'Tambah' }}
+                                <i class="fas fa-{{ $user->exists ? 'save' : 'plus-circle' }} me-1"></i>
+                                {{ $user->exists ? 'Simpan' : 'Tambah' }}
                             </button>
                         </div>
                     </form>

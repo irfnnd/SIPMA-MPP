@@ -16,7 +16,7 @@ class PengaduanController extends Controller
         $search = $request->search;
     $perPage = $request->perPage ?? 10;
 
-    $pengaduans = Pengaduan::when($search, function ($query, $search) {
+    $pengaduans = Pengaduan::with('tanggapan','petugas')->when($search, function ($query, $search) {
         return $query->where('judul', 'like', "%{$search}%");
     })->paginate($perPage)->appends($request->query());
 
@@ -26,7 +26,7 @@ class PengaduanController extends Controller
     public function index2(Request $request)
 {
     $user = $request->user();
-    $pengaduans = Pengaduan::where('user_id', $user->id)
+    $pengaduans = Pengaduan::with('tanggapan', 'petugas')->where('user_id', $user->id)
         ->orderBy('created_at', 'desc')
         ->paginate(10);
 
@@ -39,7 +39,10 @@ class PengaduanController extends Controller
      */
     public function create()
     {
-        //
+        $kategori = \App\Models\KategoriPengaduan::all(); // sesuaikan dengan model Anda
+        $unit = \App\Models\UnitLayanan::all();         // sesuaikan juga
+
+        return view('pengadu.formpengaduan', compact('kategori', 'unit'));
     }
 
     /**
@@ -47,7 +50,32 @@ class PengaduanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi_laporan' => 'required|string',
+            'kategori_id' => 'required|exists:kategori_pengaduans,id',
+            'unit_id' => 'required|exists:unit_layanans,id',
+            'lokasi' => 'nullable|string|max:255',
+            'lampiran' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $lampiran = null;
+        if ($request->hasFile('lampiran')) {
+            $lampiran = $request->file('lampiran')->store('pengaduan/lampiran', 'public');
+        }
+
+        Pengaduan::create([
+            'user_id' => $request->user()->id, // Laravel 12 style
+            'judul' => $request->judul,
+            'isi_laporan' => $request->isi_laporan,
+            'kategori_id' => $request->kategori_id,
+            'unit_id' => $request->unit_id,
+            'lokasi' => $request->lokasi,
+            'lampiran' => $lampiran,
+            'status' => 'Menunggu', // default status
+        ]);
+
+        return redirect()->route('pengaduan.create')->with('success', 'Pengaduan berhasil dikirim.');
     }
 
     /**
@@ -69,9 +97,13 @@ class PengaduanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $data_pengaduan)
     {
-        //
+        Pengaduan::where('id', $data_pengaduan)->update([
+            'status' => 'Selesai',
+        ]);
+
+        return redirect()->route('data-pengaduan.index')->with('success', 'Status pengaduan berhasil diperbarui');
     }
 
     /**
