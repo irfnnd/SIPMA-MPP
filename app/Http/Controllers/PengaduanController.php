@@ -14,24 +14,24 @@ class PengaduanController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-    $perPage = $request->perPage ?? 10;
+        $perPage = $request->perPage ?? 10;
 
-    $pengaduans = Pengaduan::with('tanggapan','petugas')->when($search, function ($query, $search) {
-        return $query->where('judul', 'like', "%{$search}%");
-    })->paginate($perPage)->appends($request->query());
+        $pengaduans = Pengaduan::with('tanggapan', 'petugas')->when($search, function ($query, $search) {
+            return $query->where('judul', 'like', "%{$search}%");
+        })->paginate($perPage)->appends($request->query());
 
-    return view('admin.pengaduan.index', compact('pengaduans'));
+        return view('admin.pengaduan.index', compact('pengaduans'));
     }
 
     public function index2(Request $request)
-{
-    $user = $request->user();
-    $pengaduans = Pengaduan::with('tanggapan', 'petugas')->where('user_id', $user->id)
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+    {
+        $user = $request->user();
+        $pengaduans = Pengaduan::with('tanggapan.petugas', 'petugas')->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-    return view('pengadu.lihat-pengaduan', compact('pengaduans'));
-}
+        return view('pengadu.lihat-pengaduan', compact('pengaduans'));
+    }
 
 
     /**

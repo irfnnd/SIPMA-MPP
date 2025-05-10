@@ -214,15 +214,15 @@
                         <div class="text-muted small mb-2">Status Pengaduan</div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $pengaduan->status === 'selesai' ? '100%' : ($pengaduan->status === 'diproses' ? '50%' : '20%') }}"
-                                aria-valuenow="{{ $pengaduan->status === 'selesai' ? '100' : ($pengaduan->status === 'diproses' ? '50' : '20') }}"
+                                style="width: {{ $pengaduan->status === 'Selesai' ? '100%' : ($pengaduan->status === 'Diproses' ? '50%' : '20%') }}"
+                                aria-valuenow="{{ $pengaduan->status === 'Selesai' ? '100' : ($pengaduan->status === 'Diproses' ? '50' : '20') }}"
                                 aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
                         <div class="d-flex justify-content-between mt-2">
-                            <span class="badge {{ $pengaduan->status === 'menunggu' ? 'bg-warning text-dark' : 'bg-light text-muted' }}">Menunggu</span>
-                            <span class="badge {{ $pengaduan->status === 'diproses' ? 'bg-info' : 'bg-light text-muted' }}">Diproses</span>
-                            <span class="badge {{ $pengaduan->status === 'selesai' ? 'bg-success' : 'bg-light text-muted' }}">Selesai</span>
+                            <span class="badge {{ $pengaduan->status === 'Menunggu' ? 'bg-warning text-dark' : 'bg-light text-muted' }}">Menunggu</span>
+                            <span class="badge {{ $pengaduan->status === 'Diproses' ? 'bg-info' : 'bg-light text-muted' }}">Diproses</span>
+                            <span class="badge {{ $pengaduan->status === 'Selesai' ? 'bg-success' : 'bg-light text-muted' }}">Selesai</span>
                         </div>
                     </div>
 
@@ -231,7 +231,7 @@
                             <h6 class="mb-0"><i class="fas fa-comment-alt me-2"></i>Isi Laporan</h6>
                         </div>
                         <div class="card-body">
-                            <p>{{ $pengaduan->isi_laporan }}</p>
+                            <p>{{ $pengaduan->isi_laporan ?? 'Belum ada tanggapan'}}</p>
                         </div>
                     </div>
 
@@ -240,7 +240,7 @@
                             <h6 class="mb-0"><i class="fas fa-reply me-2"></i>Tanggapan</h6>
                         </div>
                         <div class="card-body">
-                            @if ($pengaduan->tanggapan)
+                            @if ($pengaduan->tanggapan !== null)
                                 <div class="d-flex mb-3">
                                     <div class="flex-shrink-0">
                                         <div class="avatar bg-primary text-white rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">

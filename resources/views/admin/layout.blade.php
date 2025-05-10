@@ -154,7 +154,32 @@
                 }
             });
         }
+
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.form-selesai').forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Cegah submit langsung
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data pengaduan akan ditandai sebagai selesai!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Selesaikan!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit form jika dikonfirmasi
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
