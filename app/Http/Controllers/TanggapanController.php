@@ -27,24 +27,25 @@ class TanggapanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $pengaduanId)
-    {
-        $request->validate([
-            'isi_tanggapan' => 'required|string',
-        ]);
+    public function store(Request $request)
+{
+    $request->validate([
+        'isi_tanggapan' => 'required|string',
+        'pengaduan_id' => 'required|exists:pengaduans,id',
+    ]);
 
-        Tanggapan::create([
-            'pengaduan_id' => $pengaduanId,
-            'isi_tanggapan' => $request->isi_tanggapan,
-            'petugas_id' => $request->user()->id,
-        ]);
+    Tanggapan::create([
+        'pengaduan_id' => $request->pengaduan_id,
+        'isi_tanggapan' => $request->isi_tanggapan,
+        'petugas_id' => $request->user()->id,
+    ]);
 
-        Pengaduan::where('id', $pengaduanId)->update([
-            'status' => 'Diproses',
-        ]);
+    Pengaduan::where('id', $request->pengaduan_id)->update([
+        'status' => 'Diproses',
+    ]);
+    return redirect()->back()->with('success', 'Tanggapan berhasil dikirim.');
+}
 
-        return redirect()->back()->with('success', 'Tanggapan berhasil dikirim.');
-    }
 
     /**
      * Display the specified resource.

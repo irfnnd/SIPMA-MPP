@@ -73,9 +73,9 @@
 
                                     <td>
                                         @if ($pengaduan->lampiran)
-                                            <a href="{{ asset('storage/' . $pengaduan->lampiran) }}"
-                                                target="_blank">
-                                                <img src="{{ asset('storage/' . $pengaduan->lampiran) }}" alt="" height="30">
+                                            <a href="{{ asset('storage/' . $pengaduan->lampiran) }}" target="_blank">
+                                                <img src="{{ asset('storage/' . $pengaduan->lampiran) }}" alt=""
+                                                    height="30">
                                             </a>
                                         @else
                                             -
@@ -83,15 +83,15 @@
                                     </td>
                                     <td>
                                         @if (!$pengaduan->tanggapan)
-                                            <a type="button" class="btn btn-sm btn-primary text-white"
-                                                data-bs-toggle="modal" data-bs-target="#modalTanggapan">
+                                            <button type="button" class="btn btn-sm btn-primary text-white btn-tanggapi"
+                                                data-bs-toggle="modal" data-bs-target="#modalTanggapan"
+                                                data-id="{{ $pengaduan->id }}">
                                                 <i class="fas fa-edit" data-bs-toggle="tooltip" title="Tanggapi"></i>
-                                            </a>
+                                            </button>
                                         @else
-                                            <div class="">
-                                                <strong>Telah ditanggapi</strong>
-                                            </div>
+                                            <div><strong>Telah ditanggapi</strong></div>
                                         @endif
+
                                     </td>
 
 
@@ -142,9 +142,10 @@
             <div class="modal fade" id="modalTanggapan" tabindex="-1" aria-labelledby="modalTanggapanLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
-                    <form action="{{ route('tanggapan.store', $pengaduans->first()->id) }}" method="POST">
+                    <form action="{{ route('tanggapan.store') }}" method="POST">
                         @csrf
                         <div class="modal-content">
+                            <input type="hidden" name="pengaduan_id" id="pengaduan_id">
                             <div class="modal-header bg-success text-white">
                                 <h5 class="modal-title" id="modalTanggapanLabel">
                                     <i class="fas fa-reply me-2"></i>Beri Tanggapan
@@ -335,4 +336,19 @@
             });
         });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('modalTanggapan');
+        const inputId = document.getElementById('pengaduan_id');
+
+        document.querySelectorAll('.btn-tanggapi').forEach(button => {
+            button.addEventListener('click', function () {
+                const pengaduanId = this.getAttribute('data-id');
+                inputId.value = pengaduanId;
+            });
+        });
+    });
+</script>
+
 @endsection

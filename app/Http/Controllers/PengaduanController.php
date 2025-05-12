@@ -17,7 +17,7 @@ class PengaduanController extends Controller
         $perPage = $request->perPage ?? 10;
 
         $pengaduans = Pengaduan::with('tanggapan', 'petugas')->when($search, function ($query, $search) {
-            return $query->where('judul', 'like', "%{$search}%");
+            return $query->where('judul', 'like', "%{$search}%")->orderBy('created_at', 'desc');
         })->paginate($perPage)->appends($request->query());
 
         return view('admin.pengaduan.index', compact('pengaduans'));

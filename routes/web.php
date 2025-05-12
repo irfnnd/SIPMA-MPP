@@ -46,7 +46,5 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('data-masyarakat', App\Http\Controllers\MasyarakatController::class);
     Route::resource('data-petugas', App\Http\Controllers\PetugasController::class);
     Route::resource('data-pengguna', App\Http\Controllers\UsersController::class);
-    Route::post('/tanggapan/{pengaduan}', [TanggapanController::class, 'store'])->name('tanggapan.store');
-
-
+    Route::post('/tanggapan/store', [TanggapanController::class, 'store'])->name('tanggapan.store');
 });
