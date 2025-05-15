@@ -51,8 +51,8 @@
                                 <tr>
                                     <td class="px-4">{{ $masyarakats->firstItem() + $index }}</td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone ?? '-' }}</td>
+                                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                                    <td><a href="https://wa.me/{{ $user->phone }}">{{ $user->phone ?? '-' }}</a></td>
                                     <td class="text-center">
                                         <a class="btn btn-info btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#detailModal{{ $user->id }}">

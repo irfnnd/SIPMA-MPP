@@ -26,7 +26,10 @@ class UnitLayananController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['nama_unit' => 'required']);
+        $request->validate([
+            'nama_unit' => 'required',
+            'keterangan' => 'required'
+        ]);
 
         UnitLayanan::create($request->all());
 

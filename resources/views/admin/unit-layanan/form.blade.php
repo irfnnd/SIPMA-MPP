@@ -33,6 +33,16 @@
                                 <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mb-4">
+                            <label for="keterangan" class="form-label fw-bold">Keterangan</label>
+                            <div class="input-group">
+                                <textarea name="keterangan" id="keterangan" class="form-control" style="height: 100px">{{ old('keterangan', $unit->keterangan) }}</textarea>
+                            </div>
+                            @error('keterangan')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
 
                         <div class="d-flex justify-content-between mt-4">
                             <a href="{{ route('unit.index') }}" class="btn btn-outline-secondary">

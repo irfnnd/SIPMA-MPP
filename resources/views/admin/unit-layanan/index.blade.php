@@ -40,6 +40,7 @@
                         <tr>
                             <th class="px-4" style="width: 50px">No</th>
                             <th>Nama unit</th>
+                            <th>Keterangan</th>
                             <th class="text-center" style="width: 200px">Aksi</th>
                         </tr>
                     </thead>
@@ -48,6 +49,7 @@
                             <tr>
                                 <td class="px-4">{{ $units->firstItem() + $index }}</td>
                                 <td>{{ $unit->nama_unit }}</td>
+                                <td>{{ $unit->keterangan ?? '-' }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('unit.edit', $unit) }}"

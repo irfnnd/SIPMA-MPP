@@ -261,27 +261,63 @@
                                                 <div class="flex-grow-1 ms-3">
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <h6 class="mb-0">
-                                                            {{ $pengaduan->name ?? 'Petugas' }}</h6>
+                                                            {{ $pengaduan->tanggapan->petugas->name ?? 'Petugas' }}</h6>
                                                         <small
-                                                            class="text-muted">{{ \Carbon\Carbon::parse($pengaduan->tanggapan->created_at)->format('d M Y, H:i') }}</small>
+                                                            class="text-muted">{{ $pengaduan->tanggapan->created_at->format('d M Y, H:i') }}</small>
                                                     </div>
                                                     <p class="mb-0 mt-2">{{ $pengaduan->tanggapan->isi_tanggapan }}</p>
                                                 </div>
                                             </div>
+
+                                            @if ($pengaduan->status !== 'selesai')
+                                                <!-- Form Update Tanggapan -->
+                                                <form action="{{ route('tanggapan.update', $pengaduan->tanggapan->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="pengaduan_id"
+                                                        value="{{ $pengaduan->id }}">
+                                                    <div class="mb-3">
+                                                        <label for="isi_tanggapan" class="form-label">Perbarui
+                                                            Tanggapan</label>
+                                                        <textarea name="isi_tanggapan" class="form-control" rows="4" required>{{ $pengaduan->tanggapan->isi_tanggapan }}</textarea>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="fas fa-sync-alt me-1"></i>Perbarui Tanggapan
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            @endif
                                         @else
                                             <div class="text-center py-4">
                                                 <i class="fas fa-comment-slash fa-2x text-muted mb-3"></i>
                                                 <p class="text-muted">Belum ada tanggapan untuk pengaduan ini</p>
-                                                @if ($pengaduan->status !== 'selesai')
-                                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                                        data-bs-target="#modalTanggapan" data-bs-dismiss="modal">
-                                                        <i class="fas fa-comment-dots me-1"></i>Beri Tanggapan
-                                                    </button>
-                                                @endif
                                             </div>
+
+                                            @if ($pengaduan->status !== 'selesai')
+                                                <!-- Form Kirim Tanggapan -->
+                                                <form action="{{ route('tanggapan.store') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="pengaduan_id"
+                                                        value="{{ $pengaduan->id }}">
+                                                    <div class="mb-3">
+                                                        <label for="isi_tanggapan" class="form-label">Isi
+                                                            Tanggapan</label>
+                                                        <textarea name="isi_tanggapan" class="form-control" rows="4" required
+                                                            placeholder="Tulis tanggapan di sini..."></textarea>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <button type="submit" class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-paper-plane me-1"></i>Kirim Tanggapan
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -338,17 +374,16 @@
     </script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const modal = document.getElementById('modalTanggapan');
-        const inputId = document.getElementById('pengaduan_id');
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('modalTanggapan');
+            const inputId = document.getElementById('pengaduan_id');
 
-        document.querySelectorAll('.btn-tanggapi').forEach(button => {
-            button.addEventListener('click', function () {
-                const pengaduanId = this.getAttribute('data-id');
-                inputId.value = pengaduanId;
+            document.querySelectorAll('.btn-tanggapi').forEach(button => {
+                button.addEventListener('click', function() {
+                    const pengaduanId = this.getAttribute('data-id');
+                    inputId.value = pengaduanId;
+                });
             });
         });
-    });
-</script>
-
+    </script>
 @endsection

@@ -1,6 +1,31 @@
 @extends('pengadu.layout')
 
 @section('content')
+<style>
+    .info-item {
+        transition: all 0.3s ease-in-out;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: #f8f9fa;
+    }
+
+    .info-item:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    .info-item i {
+        font-size: 2rem;
+        color: #0d6efd;
+    }
+
+    .info-item h3 {
+        margin-top: 10px;
+        font-size: 1.2rem;
+    }
+</style>
 <main class="main">
     <!-- Hero Section -->
     <section id="hero" class="hero section">
@@ -75,7 +100,7 @@
                             Mal Pelayanan Publik Kota Padang siap membantu Anda dengan cepat dan mudah. Nikmati
                             berbagai layanan pemerintah dalam satu tempat yang nyaman dan terintegrasi.
                         </p>
-                        <a class="cta-btn" href="#appointment">Pengaduan</a>
+                        <a class="cta-btn" href="{{route('pengaduan.create')}}">Pengaduan</a>
                     </div>
                 </div>
             </div>
@@ -145,34 +170,30 @@
                 <div class="col-lg-12 ">
                     <div class="row gy-4">
 
-                        <div class="col-lg-12">
+                        <a href="https://www.google.com/maps?ll=-0.950075,100.355459&z=15&t=m&hl=id&gl=ID&mapclient=embed&cid=11675320806754209303" class="col-lg-12">
                             <div class="info-item d-flex flex-column justify-content-center align-items-center"
                                 data-aos="fade-up" data-aos-delay="200">
                                 <i class="bi bi-geo-alt"></i>
                                 <h3>Alamat</h3>
-                                <p>Plaza Andalas lantai 4, Jl. Belakang Lintas No.2f, Olo, Kec. Padang Bar., Kota
+                                <p class="text-muted mb-0">Plaza Andalas lantai 4, Jl. Belakang Lintas No.2f, Olo, Kec. Padang Bar., Kota
                                     Padang</p>
                             </div>
-                        </div><!-- End Info Item -->
-
-                        <div class="col-md-6">
-                            <div class="info-item d-flex flex-column justify-content-center align-items-center"
-                                data-aos="fade-up" data-aos-delay="300">
+                        </a><!-- End Info Item -->
+                         <a href="https://wa.me/081115500555" class="col-md-6 text-decoration-none" target="_blank">
+                            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
                                 <i class="bi bi-telephone"></i>
                                 <h3>Call Center</h3>
-                                <p>0811 1550 0555</p>
+                                <p class="text-muted mb-0">0811 1550 0555</p>
                             </div>
-                        </div><!-- End Info Item -->
+                        </a>
 
-                        <div class="col-md-6">
-                            <div class="info-item d-flex flex-column justify-content-center align-items-center"
-                                data-aos="fade-up" data-aos-delay="400">
+                        <a href="mailto:mpp@padang.go.id" class="col-md-6 text-decoration-none">
+                            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
                                 <i class="bi bi-envelope"></i>
                                 <h3>Email</h3>
-                                <p>mpp@padang.go.id</p>
+                                <p class="text-muted mb-0">mpp@padang.go.id</p>
                             </div>
-                        </div><!-- End Info Item -->
-
+                        </a><!-- End Info Item -->
                     </div>
                 </div>
 

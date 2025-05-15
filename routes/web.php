@@ -47,4 +47,5 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('data-petugas', App\Http\Controllers\PetugasController::class);
     Route::resource('data-pengguna', App\Http\Controllers\UsersController::class);
     Route::post('/tanggapan/store', [TanggapanController::class, 'store'])->name('tanggapan.store');
+    Route::put('/tanggapan/{id}', [TanggapanController::class, 'update'])->name('tanggapan.update');
 });

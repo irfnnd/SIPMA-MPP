@@ -51,7 +51,7 @@
                                 <tr>
                                     <td class="px-4">{{ $penggunas->firstItem() + $index }}</td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
+                                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                     <td>{{ $user->role ?? '-' }}</td>
                                     <td class="text-center">
                                         <a class="btn btn-info btn-sm" data-bs-toggle="modal"

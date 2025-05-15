@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('unit_layanans', function (Blueprint $table) {
             $table->id();
             $table->string('nama_unit');
-            $table->text('deskripsi')->nullable();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

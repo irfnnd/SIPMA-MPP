@@ -89,7 +89,8 @@
                                 height="40" alt="" loading="lazy" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li class="dropdown-item">{{Auth::user()->name}}</li>
+                            <li class="dropdown-item bg-primary text-white text-center border-bottom-3"><img src="{{ asset('assets/avatar.png') }}" class="rounded-circle"
+                                height="40" alt="" loading="lazy" /> {{Auth::user()->name}}</li>
                             <li><a class="dropdown-item" href="{{route('admin.logout')}}">Logout</a></li>
                         </ul>
                     </li>

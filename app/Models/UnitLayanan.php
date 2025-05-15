@@ -9,5 +9,5 @@ class UnitLayanan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_unit'];
+    protected $fillable = ['nama_unit', 'keterangan'];
 }

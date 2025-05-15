@@ -57,4 +57,10 @@ class User extends Authenticatable
         return $this->hasMany(Pengaduan::class);
     }
 
+    public function tanggapan()
+{
+    return $this->hasMany(Tanggapan::class, 'petugas_id');
+}
+
+
 }

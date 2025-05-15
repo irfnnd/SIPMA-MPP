@@ -51,8 +51,8 @@
                                 <tr>
                                     <td class="px-4">{{ $petugass->firstItem() + $index }}</td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone ?? '-' }}</td>
+                                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                                    <td><a href="https://wa.me/{{ $user->phone }}">{{ $user->phone ?? '-' }}</a></td>
                                     <td class="text-center">
                                         <a class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#detailModal{{ $user->id }}">
@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="text-muted small">Jumlah Tanggapan</div>
-                                            <div>{{ $user->tanggapans->count() }}</div>
+                                            <div>{{ $user->tanggapan->count() }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,30 +135,30 @@
                                         <h6 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Tanggapan</h6>
                                     </div>
                                     <div class="card-body">
-                                        @forelse ($user->tanggapans as $tanggapan)
-                                            <div class="d-flex mb-3">
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <h6 class="mb-0">{{ $tanggapan->pengaduan->judul ?? '-' }}</h6>
-                                                        <small class="text-muted">
-                                                            {{ \Carbon\Carbon::parse($pengaduan->created_at)->format('d M Y, H:i') ?? '-' }}
-                                                        </small>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">
-                                                        {{ $pengaduan->isi_tanggapan ?? 'Belum ada tanggapan' }}</p>
+                                       @forelse ($user->tanggapans as $tanggapan)
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 ms-3">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h6 class="mb-0">{{ $tanggapan->pengaduan->judul ?? '-' }}</h6>
+                                                    <small class="text-muted">
+                                                        {{ \Carbon\Carbon::parse($tanggapan->created_at)->format('d M Y, H:i') }}
+                                                    </small>
                                                 </div>
+                                                <p class="mb-0 mt-2">{{ $tanggapan->isi_tanggapan ?? 'Belum ada tanggapan' }}</p>
                                             </div>
-                                        @empty
-                                            <div class="d-flex mb-3">
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <h6 class="mb-0">-</h6>
-                                                        <small class="text-muted">-</small>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Belum ada tanggapan</p>
+                                        </div>
+                                    @empty
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 ms-3">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h6 class="mb-0">-</h6>
+                                                    <small class="text-muted">-</small>
                                                 </div>
+                                                <p class="mb-0 mt-2">Belum ada tanggapan</p>
                                             </div>
-                                        @endforelse
+                                        </div>
+                                    @endforelse
+
 
                                     </div>
                                 </div>
