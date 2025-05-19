@@ -59,16 +59,17 @@
                                     <td>{{ $pengaduan->lokasi ?? '-' }}</td>
                                     <td>
                                         <span
-                                            class="badge
-                                        {{ $pengaduan->status === 'menunggu'
-                                            ? 'bg-warning text-dark'
-                                            : ($pengaduan->status === 'Diproses'
-                                                ? 'bg-info'
-                                                : ($pengaduan->status === 'Selesai'
-                                                    ? 'bg-success'
-                                                    : 'bg-secondary')) }}">
-                                            {{ ucfirst($pengaduan->status) }}
-                                        </span>
+                                                    class="badge rounded-pill
+                                        @if ($pengaduan->status == 'Menunggu') bg-warning text-dark
+                                        @elseif($pengaduan->status == 'Diproses') bg-info text-white
+                                        @elseif($pengaduan->status == 'Selesai') bg-success text-white @endif px-3 py-2">
+                                                    <i
+                                                        class="fas
+                                        @if ($pengaduan->status == 'Menunggu') fa-clock
+                                        @elseif($pengaduan->status == 'Diproses') fa-spinner fa-spin
+                                        @elseif($pengaduan->status == 'Selesai') fa-check-circle @endif me-1"></i>
+                                                    {{ ucfirst($pengaduan->status) }}
+                                                </span>
                                     </td>
 
                                     <td>
@@ -83,13 +84,9 @@
                                     </td>
                                     <td>
                                         @if (!$pengaduan->tanggapan)
-                                            <button type="button" class="btn btn-sm btn-primary text-white btn-tanggapi"
-                                                data-bs-toggle="modal" data-bs-target="#modalTanggapan"
-                                                data-id="{{ $pengaduan->id }}">
-                                                <i class="fas fa-edit" data-bs-toggle="tooltip" title="Tanggapi"></i>
-                                            </button>
+                                            <div><strong>Belum ditanggapi</strong></div>
                                         @else
-                                            <div><strong>Telah ditanggapi</strong></div>
+                                            <div>{{ $pengaduan->tanggapan->isi_tanggapan }}</div>
                                         @endif
 
                                     </td>

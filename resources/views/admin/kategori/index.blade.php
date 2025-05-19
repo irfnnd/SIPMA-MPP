@@ -51,7 +51,7 @@
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('kategori.edit', $kategori) }}"
-                                            class="btn btn-sm btn-info text-white" data-bs-toggle="tooltip"
+                                            class="btn btn-sm btn-warning text-white" data-bs-toggle="tooltip"
                                             title="Edit Kategori">
                                             <i class="fas fa-edit"></i>
                                         </a>

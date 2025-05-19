@@ -27,35 +27,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-white py-2 border-0">
-                        <small class="text-muted">
-                            <i class="fas fa-arrow-up text-success me-1"></i>
-                            <span>{{ round(($pengaduanCount / max(1, $pengaduanCount - $pendingPengaduan)) * 100 - 100) }}%
-                                dari
-                                minggu lalu</span>
-                        </small>
-                    </div>
                 </div>
             </div>
 
             <!-- Pengaduan Selesai Card -->
+
+
             <div class="col-xl-3 col-md-6">
                 <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                     <div class="card-body p-0">
                         <div class="row g-0 align-items-center">
-                            <div class="col-4 bg-success py-4 text-center">
-                                <i class="fas fa-check-circle fa-2x text-white"></i>
+                            <div class="col-4 bg-warning py-4 text-center">
+                                <i class="fas fa-clock fa-2x text-white"></i>
                             </div>
                             <div class="col-8 p-3">
-                                <h6 class="text-muted mb-0">Selesai</h6>
-                                <h2 class="fw-bold mb-0">{{ $completedPengaduan }}</h2>
+                                <h6 class="text-muted mb-0">Menunggu</h6>
+                                <h2 class="fw-bold mb-0">{{ $pendingPengaduan }}</h2>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-white py-2 border-0">
-                        <div class="progress" style="height: 6px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($completedPengaduan / max(1, $pengaduanCount)) * 100 }}%"></div>
                         </div>
                     </div>
                 </div>
@@ -75,12 +63,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-white py-2 border-0">
-                        <div class="progress" style="height: 6px;">
-                            <div class="progress-bar bg-info" role="progressbar"
-                                style="width: {{ ($processedPengaduan / max(1, $pengaduanCount)) * 100 }}%"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -89,19 +71,13 @@
                 <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                     <div class="card-body p-0">
                         <div class="row g-0 align-items-center">
-                            <div class="col-4 bg-warning py-4 text-center">
-                                <i class="fas fa-clock fa-2x text-white"></i>
+                            <div class="col-4 bg-success py-4 text-center">
+                                <i class="fas fa-check-circle fa-2x text-white"></i>
                             </div>
                             <div class="col-8 p-3">
-                                <h6 class="text-muted mb-0">Menunggu</h6>
-                                <h2 class="fw-bold mb-0">{{ $pendingPengaduan }}</h2>
+                                <h6 class="text-muted mb-0">Selesai</h6>
+                                <h2 class="fw-bold mb-0">{{ $completedPengaduan }}</h2>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-white py-2 border-0">
-                        <div class="progress" style="height: 6px;">
-                            <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ ($pendingPengaduan / max(1, $pengaduanCount)) * 100 }}%"></div>
                         </div>
                     </div>
                 </div>

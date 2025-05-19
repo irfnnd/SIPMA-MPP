@@ -59,7 +59,7 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         <a href="{{ route('data-pengguna.edit', $user) }}"
-                                            class="btn btn-sm btn-info text-white" data-bs-toggle="tooltip"
+                                            class="btn btn-sm btn-warning text-white" data-bs-toggle="tooltip"
                                             title="Edit pengaduan">
                                             <i class="fas fa-edit"></i>
                                         </a>

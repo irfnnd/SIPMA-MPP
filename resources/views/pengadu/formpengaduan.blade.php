@@ -39,7 +39,7 @@
                     <select name="unit_id" class="form-control" required style="border-radius: 0; padding-inline: 15px; padding-block: 10px;">
                         <option value="">-- Pilih Unit Pelayanan --</option>
                         @foreach ($unit as $u)
-                            <option value="{{ $u->id }}">{{ $u->nama_unit }}</option>
+                            <option value="{{ $u->id }}">{{ $u->nama_unit }} - {{ $u->keterangan }}</option>
                         @endforeach
                     </select>
                 </div>
