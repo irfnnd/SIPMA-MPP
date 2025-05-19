@@ -106,7 +106,7 @@
                                                     @method('PUT')
                                                     <button type="submit" class="btn btn-sm btn-success text-white"
                                                         data-bs-toggle="tooltip" title="Selesai">
-                                                        <i class="fas fa-check"></i>
+                                                        Selesai
                                                     </button>
                                                 </form>
                                             @endif
